@@ -1,0 +1,5 @@
+{
+  "gopls": {
+    "formatting.local": "github.com/Xiangze-Li/advent-2024",
+  },
+}
