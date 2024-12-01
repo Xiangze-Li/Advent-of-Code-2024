@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Xiangze-Li/advent-2024/internal"
+	_ "github.com/Xiangze-Li/advent-2024/internal/registry"
 	"github.com/Xiangze-Li/advent-2024/util"
 )
 
