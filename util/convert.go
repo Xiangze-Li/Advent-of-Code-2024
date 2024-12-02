@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bytes"
 	"strconv"
 	"strings"
 )
@@ -17,6 +18,15 @@ func ArrayStrToUint64(strs []string) []uint64 {
 	return nums
 }
 
+// ArrayBytesToUint64 converts a slice of byte slice to a slice of uint64.
+func ArrayBytesToUint64(strs [][]byte) []uint64 {
+	nums := make([]uint64, len(strs))
+	for i, str := range strs {
+		nums[i] = Must(strconv.ParseUint(string(bytes.TrimSpace(str)), 10, 64))
+	}
+	return nums
+}
+
 // ArrayStrToInt64 converts a slice of string to a slice of int64.
 //
 // strconv.ParseInt is called for each element. If any error occurs, this
@@ -25,6 +35,15 @@ func ArrayStrToInt64(strs []string) []int64 {
 	nums := make([]int64, len(strs))
 	for i, str := range strs {
 		nums[i] = Must(strconv.ParseInt(strings.TrimSpace(str), 10, 64))
+	}
+	return nums
+}
+
+// ArrayBytesToInt64 converts a slice of byte slice to a slice of int64.
+func ArrayBytesToInt64(strs [][]byte) []int64 {
+	nums := make([]int64, len(strs))
+	for i, str := range strs {
+		nums[i] = Must(strconv.ParseInt(string(bytes.TrimSpace(str)), 10, 64))
 	}
 	return nums
 }
