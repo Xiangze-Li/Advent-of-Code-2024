@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
@@ -26,7 +27,7 @@ func main() {
 	}
 
 	puzzle := internal.Get(day)
-	input := input(day)
+	input := bytes.TrimSpace(input(day))
 
 	output := strings.Builder{}
 
