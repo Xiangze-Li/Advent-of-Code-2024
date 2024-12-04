@@ -43,6 +43,14 @@ var Delta4 = map[Direction][2]int{
 	W: {0, -1},
 }
 
+// Diagonal4 is a map of 4 diagonal directions to their index delta.
+var Diagonal4 = map[Direction][2]int{
+	NE: {-1, 1},
+	SE: {1, 1},
+	SW: {1, -1},
+	NW: {-1, -1},
+}
+
 // Opposite maps a direction to its opposite direction.
 var Opposite = map[Direction]Direction{
 	N:  S,
