@@ -12,35 +12,32 @@ type p struct {
 	i, j  int
 }
 
-func (p *p) clip(i, j, pad int) bool {
-	return pad <= i && i+pad < p.i && pad <= j && j+pad < p.j
-}
-
 func (p *p) Init(data []byte) {
 	p.grids = bytes.Split(data, []byte{'\n'})
 	p.i, p.j = len(p.grids), len(p.grids[0])
 }
 
 func (p *p) Solve1() any {
-	const target = "XMAS"
 	count := 0
+	clip := func(i, j int) bool {
+		return 0 <= i && i < p.i && 0 <= j && j < p.j
+	}
 
-	for i, row := range p.grids {
-		for j, cell := range row {
-			if cell != 'X' || !p.clip(i, j, 3) {
+	for i := range p.i {
+		for j := range p.j {
+			if p.grids[i][j] != 'X' {
 				continue
 			}
 			for _, diff := range util.Delta8 {
-				ii, jj := i, j
-				for k := range 3 {
-					ii, jj = ii+diff[0], jj+diff[1]
-					if p.grids[ii][jj] != target[k+1] {
-						break
-					}
-					if k == 2 {
-						count++
-					}
+				if !clip(i+diff[0]*3, j+diff[1]*3) {
+					continue
 				}
+				if p.grids[i+diff[0]][j+diff[1]] != 'M' ||
+					p.grids[i+diff[0]*2][j+diff[1]*2] != 'A' ||
+					p.grids[i+diff[0]*3][j+diff[1]*3] != 'S' {
+					continue
+				}
+				count++
 			}
 		}
 	}
@@ -51,18 +48,17 @@ func (p *p) Solve1() any {
 func (p *p) Solve2() any {
 	count := 0
 
-	for i, row := range p.grids {
-		for j, cell := range row {
-			if cell != 'A' || !p.clip(i, j, 1) {
+	for i := 1; i < p.i-1; i++ {
+		for j := 1; j < p.j-1; j++ {
+			if p.grids[i][j] != 'A' {
 				continue
 			}
 			mas := 0
 			for dir, diff := range util.Diagonal4 {
-				if p.grids[i+diff[0]][j+diff[1]] == 'M' {
-					op := util.Delta8[util.Opposite[dir]]
-					if p.grids[i+op[0]][j+op[1]] == 'S' {
-						mas++
-					}
+				op := util.Delta8[util.Opposite[dir]]
+				if p.grids[i+diff[0]][j+diff[1]] == 'M' &&
+					p.grids[i+op[0]][j+op[1]] == 'S' {
+					mas++
 				}
 			}
 			if mas == 2 {
