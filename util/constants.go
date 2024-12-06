@@ -70,3 +70,15 @@ var ConvertFromUDLR = map[byte]Direction{
 	'L': W,
 	'R': E,
 }
+
+// Right90 maps a direction to the direction after a 90-degree right turn.
+var Right90 = map[Direction]Direction{
+	N:  E,
+	E:  S,
+	S:  W,
+	W:  N,
+	NE: SE,
+	SE: SW,
+	SW: NW,
+	NW: NE,
+}
