@@ -76,7 +76,7 @@ func Clone[E any](s []E) []E {
 		return c
 	}
 	for i := range s {
-		c[i] = clone(s[i]).(E) //nolint:errcheck // panic is fine
+		c[i] = clone(s[i]).(E)
 	}
 	return c
 }
