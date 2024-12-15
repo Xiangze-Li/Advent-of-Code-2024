@@ -63,12 +63,16 @@ var Opposite = map[Direction]Direction{
 	SW: NE,
 }
 
-// ConvertFromUDLR converts a byte of U/D/L/R to a Direction.
-var ConvertFromUDLR = map[byte]Direction{
+// ConvertFrom converts a byte of U/D/L/R to a Direction.
+var ConvertFrom = map[byte]Direction{
 	'U': N,
 	'D': S,
 	'L': W,
 	'R': E,
+	'^': N,
+	'v': S,
+	'<': W,
+	'>': E,
 }
 
 // Right90 maps a direction to the direction after a 90-degree right turn.
