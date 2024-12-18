@@ -3,6 +3,7 @@ package puzzle18
 import (
 	"bytes"
 	"fmt"
+	"maps"
 
 	"github.com/Xiangze-Li/advent-2024/internal"
 	"github.com/Xiangze-Li/advent-2024/util"
@@ -60,17 +61,26 @@ func (p *p) Solve1() any {
 }
 
 func (p *p) Solve2() any {
-	wall := make(map[[2]int]bool, 1024)
+	wall := make(map[[2]int]bool, len(p.pos))
 	for i := range 1024 {
 		wall[p.pos[i]] = true
 	}
-	for i := 1024; i < len(p.pos); i++ {
-		wall[p.pos[i]] = true
+	l, r := 1023, len(p.pos)-1
+	wallL := maps.Clone(wall)
+	for r-l > 1 {
+		mid := (l + r) / 2
+		for i := l; i <= mid; i++ {
+			wall[p.pos[i]] = true
+		}
 		if bfs(wall) == -1 {
-			return fmt.Sprintf("%d,%d", p.pos[i][0], p.pos[i][1])
+			r = mid
+			wall = maps.Clone(wallL)
+		} else {
+			l = mid
+			wallL = maps.Clone(wall)
 		}
 	}
-	return -1
+	return fmt.Sprintf("%d,%d", p.pos[r][0], p.pos[r][1])
 }
 
 func init() {
