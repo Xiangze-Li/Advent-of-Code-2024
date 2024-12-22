@@ -16,13 +16,13 @@ func (p *p) Init(data []byte) {
 }
 
 func step(n uint64) uint64 {
-	const module = 16777216
+	const mask = 1<<24 - 1
 	n ^= n << 6
-	n %= module
+	n &= mask
 	n ^= n >> 5
-	n %= module
+	n &= mask
 	n ^= n << 11
-	n %= module
+	n &= mask
 	return n
 }
 
@@ -41,21 +41,21 @@ func (p *p) Solve2() any {
 	prices := make(map[[4]int]int, 2000*len(p.n))
 
 	for _, n := range p.n {
-		vis := map[[4]int]bool{}
+		vis := make(map[[4]int]bool, 2000)
 		k := [4]int{}
-		prevCount := int(n) % 10
+		prev := int(n) % 10
 		for x := range 3 {
 			n = step(n)
 			c := int(n) % 10
-			k[x+1] = c - prevCount
-			prevCount = c
+			k[x+1] = c - prev
+			prev = c
 		}
 
 		for x := 3; x < 2000; x++ {
 			n = step(n)
 			c := int(n) % 10
-			k[0], k[1], k[2], k[3] = k[1], k[2], k[3], c-prevCount
-			prevCount = c
+			k[0], k[1], k[2], k[3] = k[1], k[2], k[3], c-prev
+			prev = c
 			if vis[k] {
 				continue
 			}
