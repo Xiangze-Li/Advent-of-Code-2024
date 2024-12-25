@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -16,7 +17,11 @@ import (
 func main() {
 	var day, part int
 	if len(os.Args) <= 1 {
-		day = time.Now().Day()
+		now := time.Now()
+		if now.Year() != 2024 || now.Month() != time.December || now.Day() > 25 {
+			log.Fatalf("usage %s <day> [part]", os.Args[0])
+		}
+		day = now.Day()
 	} else {
 		day = util.Must(strconv.Atoi(os.Args[1]))
 	}
